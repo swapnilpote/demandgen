@@ -1,4 +1,5 @@
 import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 import json
 import numpy as np 
 
@@ -9,8 +10,8 @@ from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Embedding
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
-physical_devices = tf.config.list_physical_devices('GPU')
-tf.config.experimental.set_memory_growth(physical_devices[0], enable=True)
+# physical_devices = tf.config.list_physical_devices('GPU')
+# tf.config.experimental.set_memory_growth(physical_devices[0], enable=True)
 
 
 class GloveDomainClassifier:
@@ -42,15 +43,14 @@ class GloveDomainClassifier:
         model.add(Dense(63, activation="relu"))
         model.add(Dense(2, activation="softmax"))
         model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])
-        print(model.summary())
         model.load_weights(self.model_weight_file)
 
         return model
 
     def predict(self, text):
+        class_dict = {"0": "dvm", "1": "ivr"}
+
         text_vec = self.preprocessing(text)
-        print(text_vec)
-        print(text_vec.shape)
         result = self.model.predict(text_vec)
 
-        print(text, result)
+        return {"domain": class_dict.get(str(np.argmax(result[0])))}
