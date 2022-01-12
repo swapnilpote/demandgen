@@ -1,0 +1,11 @@
+# Folders
+__pycache__/
+.vscode/
+
+# Files
+.DS_Store
+.env
+.flask_env
+*.h5
+*.npy
+*.json
