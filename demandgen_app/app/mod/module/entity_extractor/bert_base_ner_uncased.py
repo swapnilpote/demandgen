@@ -11,14 +11,14 @@ class BertBaseNERUncased:
         result = self.pipeline(text)
 
         person_index = list()
+        ner_dict = dict()
         for res in result:
             if res.get("entity")=="B-PER" and len(person_index)==0:
                 person_index.append(res.get("start"))
             elif res.get("entity")=="I-PER":
                 person_index.append(res.get("end"))
 
-        return text[person_index[0]: person_index[-1]]
+        if len(person_index) >= 2:
+            ner_dict["person_name"] = text[person_index[0]: person_index[-1]]
 
-if __name__ == "__main__":
-    bert = BertBaseNERUncased()
-    print(bert.predict("i am swapnil pote living in kalyan"))
+        return ner_dict
