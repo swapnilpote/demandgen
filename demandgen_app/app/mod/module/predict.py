@@ -7,7 +7,14 @@ class Predict:
         self.glove_domain_classifier = GloveDomainClassifier()
 
     def result(self, text):
-        self.glove_domain_classifier.predict(text)
-        self.bert_base_ner_uncased.predict(text)
+        result = dict()
+        domain_result = self.glove_domain_classifier.predict(text)
+        result = domain_result
 
-        return True
+        if domain_result.get("domain") == "dvm":
+            ner_result = self.bert_base_ner_uncased.predict(text)
+            result["entities"] = ner_result
+        elif domain_result.get("domain") == "ivr":
+            print("Work in progress")
+
+        return result
