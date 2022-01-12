@@ -18,8 +18,19 @@ def predict():
 
     # Response data
     response = dict()
+    response["text"] = text
+    response["callid"] = callid
     response["calldetails"] = calldetails
+    response["action"] = dict()
 
-    pred.result(text)
+    result = pred.result(text)
+
+    if result.get("domain")=="dvm" and result.get("entities").get("person_name"):
+        response["action"]["command"] = "hangup"
+        response["action"]["value"] = True
+        response["action"]["identifiedData"] = dict()
+        response["action"]["identifiedData"]["domain"] = "dvm"
+        response["action"]["identifiedData"]["intent"] = ""
+        response["action"]["identifiedData"]["entities"] = result.get("entities")
 
     return jsonify(response)
