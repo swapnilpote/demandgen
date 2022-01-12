@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demandgen-app-deployment
+  labels:
+    app: demandgen-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demandgen-app
+  template:
+    metadata:
+      labels:
+        app: demandgen-app
+    spec:
+      containers:
+        - name: demandgen-app
+          image: genietalk/demandgen_app:0.1
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demandgen-app-service
+spec:
+  selector:
+    app: demandgen-app
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
