@@ -53,11 +53,11 @@ tensorboard==2.7.0
 tensorboard-data-server==0.6.1
 tensorboard-plugin-wit==1.8.1
 tensorflow-estimator==2.5.0
-tensorflow-gpu==2.5.0
+tensorflow==2.5.0
 termcolor==1.1.0
 tokenizers==0.10.3
 tomli==1.2.3
-torch==1.10.1+cu102
+torch==1.10.1
 tqdm==4.62.3
 transformers==4.15.0
 typed-ast==1.5.1
