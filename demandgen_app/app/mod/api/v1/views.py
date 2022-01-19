@@ -15,8 +15,9 @@ def predict():
     text = request.json.get("text")
     callid = request.json.get("callid")
     calldetails = request.json.get("calldetails")
-    logger.debug({"text": text, "callid": callid, "calldetails": calldetails})
-    logger.debug("-"*100)
+    print("Stage - 0")
+    print({"text": text, "callid": callid, "calldetails": calldetails})
+    print("-"*100)
 
     # Response data
     response = dict()
@@ -26,6 +27,9 @@ def predict():
     response["action"] = list(dict())
 
     result = pred.result(text)
+    print("Stage - 1")
+    print({"result": result})
+    print("-"*100)
 
     if result.get("entities"):
         verified_entities = data_validation(calldetails, result.get("entities"))
@@ -40,8 +44,9 @@ def predict():
             response["identifiedData"]["intent"] = ""
             response["identifiedData"]["entities"] = result.get("entities")
 
-    logger.debug(response)
-    logger.debug("="*100)
+    print("Stage - 2")
+    print(response)
+    print("="*100)
 
     return jsonify(response)
 
